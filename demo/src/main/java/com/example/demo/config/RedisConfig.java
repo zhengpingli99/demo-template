@@ -23,6 +23,8 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
+    @Value("${spring.redis.host}")
+    private String hostName;
 
 
     @Bean
@@ -35,13 +37,14 @@ public class RedisConfig extends CachingConfigurerSupport {
     @ConfigurationProperties(prefix="spring.redis")
     public JedisConnectionFactory jedisConnectionFactory(JedisPoolConfig jedisPoolConfig) {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
+        jedisConnectionFactory.setHostName(hostName);
 
         return jedisConnectionFactory;
     }
 
     @Bean
     public CacheManager cacheManager(@SuppressWarnings("rawtypes") RedisConnectionFactory  redisConnectionFactory) {
-        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMillis(5))).transactionAware().build();
+        RedisCacheManager cacheManager = RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofSeconds(15))).transactionAware().build();
         return cacheManager;
     }
     @Override

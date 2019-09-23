@@ -38,7 +38,7 @@ public class DemoApplicationTests extends AbstractJUnit4SpringContextTests {
     @Test
     public void insData(){
         Dept dept =new Dept();
-        dept.setId(1000002);
+        dept.setId(1000004);
         dept.setDepartmentName("这都是什么啊");
         deptService.save(dept);
     }
