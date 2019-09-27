@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.common.RedisObjectSerializer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
@@ -22,6 +23,7 @@ import java.time.Duration;
 
 @Configuration
 @EnableCaching
+@Slf4j
 public class RedisConfig extends CachingConfigurerSupport {
     @Value("${spring.redis.host}")
     private String hostName;
@@ -56,7 +58,7 @@ public class RedisConfig extends CachingConfigurerSupport {
             for (Object obj : objects) {
                 sb.append(obj.toString());
             }
-            System.out.println("keyGenerator=" + sb.toString());
+            log.info("keyGenerator="+ sb.toString());
             return sb.toString();
         };
 

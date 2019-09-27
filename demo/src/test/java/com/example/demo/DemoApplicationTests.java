@@ -1,17 +1,20 @@
 package com.example.demo;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.example.demo.common.KafkaProducer;
 import com.example.demo.entity.Dept;
 import com.example.demo.mapper.DeptMapper;
 import com.example.demo.service.DeptService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.security.acl.Group;
 import java.sql.Connection;
 import java.text.NumberFormat;
 
@@ -35,7 +38,7 @@ public class DemoApplicationTests extends AbstractJUnit4SpringContextTests {
     /**
      * 测试插入功能
      */
-    @Test
+
     public void insData(){
         Dept dept =new Dept();
         dept.setId(1000004);
@@ -52,6 +55,12 @@ public class DemoApplicationTests extends AbstractJUnit4SpringContextTests {
         // 设置最小整数位数
         nf.setMinimumIntegerDigits(4);
         System.err.println(nf.format(i));
+    }
+    @Autowired
+    private KafkaProducer kafkaProducer;
+    @Test
+    public  void getProducer(){
+      this.kafkaProducer.send();
     }
 
 }
